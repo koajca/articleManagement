@@ -10,6 +10,7 @@ import com.news.dao.ArticleDAO;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,17 +27,15 @@ public class MainFrame extends javax.swing.JFrame {
         initializeData();
     }
 
-    private void initializeData() {
+    private void writeDataToTable(JTable table, List listData) {
         try {
-            List listArt = ArticleDAO.getAllArticle();
-
-            DefaultTableModel model = (DefaultTableModel) tblArticle.getModel();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
             for (int i = 0; i < model.getRowCount(); i++) {
                 model.removeRow(i);
             }
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            for (int i = 0; i < listArt.size(); i++) {
-                ArticleBO bo = (ArticleBO) listArt.get(i);
+            for (int i = 0; i < listData.size(); i++) {
+                ArticleBO bo = (ArticleBO) listData.get(i);
                 String status = "";
                 switch (bo.getStatus()) {
                     case 0:
@@ -56,6 +55,20 @@ public class MainFrame extends javax.swing.JFrame {
                 }
                 model.addRow(new Object[]{bo.getTitle(), bo.getShortContent(), sdf.format(bo.getCreateTime()), bo.getContent(), status});
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initializeData() {
+        try {
+            List listArt = ArticleDAO.getAllArticle();
+            
+            writeDataToTable(tblArticle,listArt);
+            writeDataToTable(tblArticle1,listArt);
+            writeDataToTable(tblArticle2,listArt);
+            writeDataToTable(tblArticle3,listArt);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,6 +113,13 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         tblArticle2 = new javax.swing.JTable();
         cmbType = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tblArticle3 = new javax.swing.JTable();
+        jButton5 = new javax.swing.JButton();
+        txtKeyword1 = new javax.swing.JTextField();
+        cmbType1 = new javax.swing.JComboBox<>();
+        btnSearch1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,7 +150,7 @@ public class MainFrame extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblArticle);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 600, 97));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 600, 110));
 
         jButton2.setText("Thêm mới");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -214,7 +234,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3)
                             .addComponent(txtGroup))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,7 +294,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSearch))
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,11 +305,69 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(btnSearch)
                     .addComponent(cmbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(53, 53, 53)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(195, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Duyệt bài viết", jPanel3);
+
+        tblArticle3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Tiêu đề", "Nội dung chính", "Ngày đăng", "Nội dung", "Trạng thái"
+            }
+        ));
+        jScrollPane8.setViewportView(tblArticle3);
+
+        jButton5.setText("Xuất excel");
+
+        txtKeyword1.setToolTipText("Từ khóa");
+
+        cmbType1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tiêu đề", "Nội dung chính", "Nội dung" }));
+
+        btnSearch1.setText("Tìm kiếm");
+        btnSearch1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearch1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(txtKeyword1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(cmbType1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addComponent(btnSearch1)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addGap(265, 265, 265))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtKeyword1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch1)
+                    .addComponent(cmbType1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton5)
+                .addContainerGap(206, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Thống kê tin bài", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -298,7 +376,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1)
-                .addGap(37, 37, 37))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,7 +397,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             int confirm = JOptionPane.showConfirmDialog(null, "Bạn muốn thêm mới bài viết", "Xác nhận thêm mới bài viết", JOptionPane.YES_NO_OPTION);
-            if (confirm == 1) {
+            if (confirm == 0) {
                 ArticleDAO.insert(txtTitle.getText().trim(), txaShortContent.getText().trim(), txaContent.getText().trim(), 1l);
                 this.initializeData();
 
@@ -343,6 +421,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSearch1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -381,11 +463,14 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnSearch1;
     private javax.swing.JComboBox<String> cmbType;
+    private javax.swing.JComboBox<String> cmbType1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -394,21 +479,25 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tblArticle;
     private javax.swing.JTable tblArticle1;
     private javax.swing.JTable tblArticle2;
+    private javax.swing.JTable tblArticle3;
     private javax.swing.JTextArea txaContent;
     private javax.swing.JTextArea txaGroupDesc;
     private javax.swing.JTextArea txaShortContent;
     private javax.swing.JTextField txtGroup;
     private javax.swing.JTextField txtKeyword;
+    private javax.swing.JTextField txtKeyword1;
     private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
 }

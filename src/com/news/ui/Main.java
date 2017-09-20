@@ -13,10 +13,15 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            MainFrame guiMain = new MainFrame();
+            LoginFrame guiMain = new LoginFrame();
+//            MainFrame guiMain = new MainFrame();
+//            UpdateArticle guiMain = new UpdateArticle();
+            
 
             guiMain.setVisible(true);
-            guiMain.setTitle("Quản lý bài viết");
+            guiMain.setTitle("Đăng nhập hệ thống");
+//            guiMain.setTitle("Hệ thống quản lý tin bài");
+//            guiMain.setTitle("Cập nhật tin bài");
 
         } catch (Exception e) {
             e.printStackTrace();
